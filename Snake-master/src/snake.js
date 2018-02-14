@@ -188,37 +188,10 @@ function checkNewPosition() {
     var position = head.position();        
     
     //check if snake is out the field
-    if (position.left < 0) {
-        // $(head).css({
-        //     left: $('#field').innerWidth() - head.outerWidth()
-        // });
-        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
-        $('#infoAlert a').focus();
-        stopMovingOfSnake = true;
-        killSnake();
-    }
-    else if (position.top < 0) {
-        // $(head).css({
-        //     top: $('#field').innerHeight() - head.outerHeight()
-        // });
-        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
-        $('#infoAlert a').focus();
-        stopMovingOfSnake = true;
-        killSnake();
-    }
-    else if (position.left + head.outerWidth() > $('#field').outerWidth()) {
-        // $(head).css({
-        //     left: 0
-        // });
-        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
-        $('#infoAlert a').focus();
-        stopMovingOfSnake = true;
-        killSnake();
-    }
-    else if (position.top + head.outerHeight() > $('#field').outerHeight()) {
-        // $(head).css({
-        //     top: 0
-        // });
+    if (position.left < 0 ||
+        position.top < 0 || 
+        position.left + head.outerWidth() > $('#field').outerWidth() || 
+        position.top + head.outerHeight() > $('#field').outerHeight()) {
         showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
         $('#infoAlert a').focus();
         stopMovingOfSnake = true;
