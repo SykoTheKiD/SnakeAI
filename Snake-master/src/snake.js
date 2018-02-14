@@ -143,24 +143,6 @@ function setMoveEvents() {
         }
     });
     
-    //Touch events
-    // var options = {
-    //     preventDefault: true
-    // };
-    var mc = new Hammer(document.getElementById('field'));
-    mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
-
-    mc.on("swipeleft swipeup swiperight swipedown", function (ev) {        
-        if (ev.type === 'swipeleft' && lastDirectionString !== 'right') {
-            directionString = 'left';
-        } else if (ev.type === 'swipeup' && lastDirectionString !== 'down') {
-            directionString = 'up';
-        } else if (ev.type === 'swiperight' && lastDirectionString !== 'left') {
-            directionString = 'right';
-        } else if (ev.type === 'swipedown' && lastDirectionString !== 'up') {
-            directionString = 'down';
-        }
-    });
     
     //Hold direction key to speed up snake
     var lastKeyUpAt = 0,
@@ -193,28 +175,6 @@ function setMoveEvents() {
         // Set lastKeyUpAt to hold the time the last key up event was fired
         lastKeyUpAt = new Date();
     });
-    
-    //Press your finger on the screen to speed up snake    
-    mc.add(new Hammer.Press({ event: 'press', time: 200 }));
-
-    mc.on("press", function () {
-        speedUpSnake(100);        
-    });
-
-    mc.on("pressup", function () {
-        speedUpSnake(400);        
-    });
-    
-    //Double tab for break
-    mc.add(new Hammer.Tap({ event: 'tap', taps: 1 }));
-
-    mc.on("tap", function () {
-        if (stopMovingOfSnake) {
-            continueSnake();
-        } else {
-            pauseSnake();
-        }
-    });
 }
 
 //change the speed of the snake
@@ -229,24 +189,40 @@ function checkNewPosition() {
     
     //check if snake is out the field
     if (position.left < 0) {
-        $(head).css({
-            left: $('#field').innerWidth() - head.outerWidth()
-        });
+        // $(head).css({
+        //     left: $('#field').innerWidth() - head.outerWidth()
+        // });
+        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
+        $('#infoAlert a').focus();
+        stopMovingOfSnake = true;
+        killSnake();
     }
     else if (position.top < 0) {
-        $(head).css({
-            top: $('#field').innerHeight() - head.outerHeight()
-        });
+        // $(head).css({
+        //     top: $('#field').innerHeight() - head.outerHeight()
+        // });
+        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
+        $('#infoAlert a').focus();
+        stopMovingOfSnake = true;
+        killSnake();
     }
     else if (position.left + head.outerWidth() > $('#field').outerWidth()) {
-        $(head).css({
-            left: 0
-        });
+        // $(head).css({
+        //     left: 0
+        // });
+        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
+        $('#infoAlert a').focus();
+        stopMovingOfSnake = true;
+        killSnake();
     }
     else if (position.top + head.outerHeight() > $('#field').outerHeight()) {
-        $(head).css({
-            top: 0
-        });
+        // $(head).css({
+        //     top: 0
+        // });
+        showInfoAlert('<h4>Game over!</h4><br/>Highscore: ' + snake.length + '<br/><br/><a href="#" onclick="location.reload();" onkeydown="javascript: if(event.keyCode == 13) location.reload();">Start new game!</a>');
+        $('#infoAlert a').focus();
+        stopMovingOfSnake = true;
+        killSnake();
     }
     
     //check if head is over a part of the tail
