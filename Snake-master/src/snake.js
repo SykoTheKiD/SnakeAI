@@ -49,7 +49,7 @@ function createSnake() {
     array_snake_parts.push(snake_head);        
     
     //Create the tail parts    
-    var amountOfPartsByDefault = 8;
+    var amountOfPartsByDefault = 0;
 
     for (var z = 0; z < amountOfPartsByDefault; z++) {
         var snake_tail = $('<div></div>', {
@@ -153,33 +153,8 @@ function setMoveEvents() {
             || e.which === 38 && lastDirectionString === 'up'
             || e.which === 39 && lastDirectionString === 'right'
             || e.which === 40 && lastDirectionString === 'down') {
-            // Set key down time to the current time
-            var keyDownAt = new Date();
-        
-            // Use a timeout with 1000ms (this would be your x variable)
-            setTimeout(function () {
-                // Compare key down time with key up time
-                if (+keyDownAt > +lastKeyUpAt) {
-                    // Key has been held down for x seconds
-                    speedUpSnake(100);
-                }
-                else {
-                    // Key has not been held down for x seconds
-                    speedUpSnake(400);
-                }
-            }, 100);
         }
     });
-
-    $elem.on('keyup', function () {
-        // Set lastKeyUpAt to hold the time the last key up event was fired
-        lastKeyUpAt = new Date();
-    });
-}
-
-//change the speed of the snake
-function speedUpSnake(value) {
-    snakeSpeed = value;
 }
 
 //check if the new position of the head is valid to continue moving
