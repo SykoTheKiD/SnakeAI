@@ -1,11 +1,13 @@
 import snake_detection as sd
 from random import randint
+from game import SnakeGame
 from PIL import ImageGrab
 import numpy as np
 import imutils
 import cv2
 
 def main():
+	game = SnakeGame()
 	while True:
 		screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))
 		screen = np.array(screen_image)
