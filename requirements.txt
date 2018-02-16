@@ -1,0 +1,8 @@
+tensorflow
+tqdm
+numpy
+logging
+imutils
+cv2
+Pillow
+pyautogui

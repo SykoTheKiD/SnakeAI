@@ -10,6 +10,10 @@ def contour_approximation(contours):
 	perimeter = cv2.arcLength(c, True)
 	approx = cv2.approxPolyDP(c, 0.04 * perimeter, True)
 
+def get_snake_body_mask(image):
+	white = np.uint8([255, 255, 255])
+	return cv2.inRange(image, white, white)
+
 def get_snake_head_mask(image):
 	# head mask
 	green = np.uint8([156, 204, 101])
