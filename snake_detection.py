@@ -1,3 +1,4 @@
+from math import sqrt
 import numpy as np
 import logging
 import cv2

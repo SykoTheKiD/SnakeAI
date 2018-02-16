@@ -1,7 +1,6 @@
 import snake_detection as sd
 from random import randint
 from PIL import ImageGrab
-from math import sqrt
 import numpy as np
 import imutils
 import cv2
