@@ -1,18 +1,25 @@
 import numpy as np
+import logging
 import cv2
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def contour_approximation(contours):
 	perimeter = cv2.arcLength(c, True)
 	approx = cv2.approxPolyDP(c, 0.04 * perimeter, True)
 
-def detect_snake_head(image):
+def get_snake_head_mask(image):
 	# head mask
 	green = np.uint8([156, 204, 101])
-	head_mask = cv2.inRange(image, green, green)
+	return cv2.inRange(image, green, green)
+
+def get_snake_candy_mask(image):
 	snack = np.uint8([233, 30, 99])
-	snack_mask = cv2.inRange(image, snack, snack)
-	mask = cv2.bitwise_or(head_mask, snack_mask)
-	return cv2.bitwise_and(image, image, mask=mask)
+	return cv2.inRange(image, snack, snack)
+	
+def combine_mask(mask1, mask2):
+	return cv2.bitwise_or(mask1, mask2)
 
 def find_contours(image):
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

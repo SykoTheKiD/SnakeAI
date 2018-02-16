@@ -32,7 +32,7 @@ $(function () {
     createSnake();
 
     $(document).keyup(function (e) {
-        if (e.keyCode == 27) { //Esc
+        if (e.keyCode == 27 || e.keyCode == 32) { //Esc or Space
             stopMovingOfSnake ? continueSnake() : pauseSnake();
         }
     });
