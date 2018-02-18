@@ -11,12 +11,7 @@ MOVE_RIGHT = "right"
 
 class SnakeGame:
 	def __init__(self):
-		self.high_score = 0
-		self.is_alive = True
-		self.snake_length = 0
-
-	def is_alive(self):
-		pass
+		self.score = 0
 
 	def move_snake(self, direction):
 		direction = direction.lower()

@@ -224,6 +224,8 @@ function killSnake() {
         $('.snake-tail').addClass('bounceOutLeft');
         $('.snake-head').addClass('bounceOutLeft');
     }, 400);
+
+    $('#field').css('background-color', "#ff0000")
 }
 
 function showInfoAlert(text) {

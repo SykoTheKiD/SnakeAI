@@ -7,10 +7,12 @@ import cv2
 SNAKE_BODY = "snake_body"
 SNAKE_HEAD = "snake_head"
 CANDY = "candy"
+GAME_OVER = "game_over"
 
 COLOURS = {SNAKE_BODY: np.uint8([255, 255, 255]), 
 		   SNAKE_HEAD: np.uint8([156, 204, 101]), 
-		   CANDY: np.uint8([233, 30, 99])}
+		   CANDY: np.uint8([233, 30, 99]),
+		   GAME_OVER: np.uint8([255, 0, 0])}
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -59,6 +61,10 @@ def point_distance(p1, p2):
 	x_delta = p2[0] - p1[0]
 	y_delta = p2[1] - p1[1]
 	return sqrt((x_delta**2 + y_delta**2))
+
+def game_over(image):
+	screen_game_over = get_part(image, GAME_OVER)
+	return cv2.countNonZero(screen_game_over.mask) > 0
 
 class Screen:
 	def __init__(self, mask, screen):

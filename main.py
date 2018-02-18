@@ -3,14 +3,21 @@ from game import SnakeGame
 from PIL import ImageGrab
 import numpy as np
 import logging
+import time
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def main():
-	game = SnakeGame()
+	logger.info("Game starting")
+	for i in range(5):
+		logger.info(i + 1)
+		time.sleep(1)
+
+	snakes = []
+	snake = SnakeGame()
 	while True:
-		dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, dist_candy = -1, -1, -1, -1, -1, -1
+		dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, dist_candy, snake_body_area = -1, -1, -1, -1, -1, -1, -1
 		screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))
 		screen = np.array(screen_image)
 
@@ -55,6 +62,12 @@ def main():
 				dist_candy = sd.point_distance(head, p2)
 
 		input_vector = np.array([dist_top, dist_bottom, dist_left, dist_right, dist_head_tail, dist_candy])
+		screen_game_over = sd.get_part(screen, sd.GAME_OVER)
+		if sd.game_over(screen):
+			snake.score = snake_body_area
+			snakes.append(snake)
+			snake = SnakeGame()
+			snake.reset_game()
 
 if __name__ == "__main__":
 	main()
