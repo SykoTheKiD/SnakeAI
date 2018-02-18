@@ -41,15 +41,16 @@ def find_contours(image):
 	cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 	return cnts
 
-def get_square_center(c):
+def get_contour_props(c):
 	M = cv2.moments(c)
+	area = M["m00"]
+	cX, cY = 0, 0
 	try:
 		cX = int(M["m10"] / M["m00"])
 		cY = int(M["m01"] / M["m00"])
-		return cX, cY
 	except Exception as e:
 		logger.warn("Division by zero, no squares found")
-		return 0, 0
+	return Contour((cX, cY), area)
 
 def collinear(p1, p2):
 	return (p1[0] == p2[0]) or (p1[1] == p2[1])

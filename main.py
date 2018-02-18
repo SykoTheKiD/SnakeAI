@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 def main():
 	game = SnakeGame()
 	while True:
+		dist_top, dist_left, dist_right, dist_bottom, dist_head_tail = -1, -1, -1, -1, -1
 		screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))
 		screen = np.array(screen_image)
 
@@ -18,9 +19,9 @@ def main():
 		screen_snake_body = sd.get_part(screen, sd.SNAKE_BODY).screen
 		cnts = sd.find_contours(screen_snake_body)
 		if len(cnts) == 1:
-			M = cv2.moments(cnts[0])
-			snake_body_area = M['m00']
-			body_center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+			cnt_prop = sd.get_contour_props(cnts[0])
+			snake_body_area = cnt_prop.area
+			body_center = cnt_prop.center
 
 		snake_obj = sd.get_part(screen, sd.SNAKE_HEAD)
 		snake_mask = snake_obj.mask
@@ -31,16 +32,16 @@ def main():
 		rows = screen.shape[0]
 		cols = screen.shape[1]
 		cnts = sd.find_contours(screen_snake)
-		dist_top, dist_left, dist_right, dist_bottom, dist_head_tail = -1, -1, -1, -1, -1
 		if len(cnts) == 1:
-			p1 = sd.get_square_center(cnts[0])
-			dist_left = sd.point_distance(p1, (0, p1[1]))
-			dist_right = sd.point_distance(p1, (cols, p1[1]))
-			dist_top = sd.point_distance(p1, (p1[0], rows))
-			dist_bottom = sd.point_distance(p1, (p1[0], 0))
+			cnt_prop = sd.get_contour_props(cnts[0])
+			head = cnt_prop.center
+			dist_left = sd.point_distance(head, (0, head[1]))
+			dist_right = sd.point_distance(head, (cols, head[1]))
+			dist_top = sd.point_distance(head, (head[0], rows))
+			dist_bottom = sd.point_distance(head, (head[0], 0))
 
 		try:
-			dist_head_tail = sd.point_distance(p1, body_center)
+			dist_head_tail = sd.point_distance(head, body_center)
 		except UnboundLocalError as e:
 			logger.error("No snake body found")
 
@@ -49,23 +50,13 @@ def main():
 		cnts = sd.find_contours(full)
 		dist_candy = -1
 		if len(cnts) == 2:
-			p1, p2 = sd.get_square_center(cnts[0]), sd.get_square_center(cnts[1])
-			if sd.collinear(p1, p2):
-				dist_candy = sd.point_distance(p1, p2)
+			cnt1_prop = sd.get_contour_props(cnts[0])
+			cnt2_prop = sd.get_contour_props(cnts[1])
+			head, p2 = cnt1_prop.center, cnt2_prop.center
+			if sd.collinear(head, p2):
+				dist_candy = sd.point_distance(head, p2)
 
-		input_vector = np.array([
-			dist_top, 
-			dist_bottom, 
-			dist_left, 
-			dist_right, 
-			dist_head_tail, 
-			dist_candy
-			])
-
-		cv2.imshow("Vue", screen_snake_body)
-		if cv2.waitKey(25) & 0xFF == ord('q'):
-			cv2.destroyAllWindows()
-			break
+		input_vector = np.array([dist_top, dist_bottom, dist_left, dist_right, dist_head_tail, dist_candy])
 
 if __name__ == "__main__":
 	main()
