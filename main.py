@@ -3,7 +3,6 @@ from game import SnakeGame
 from PIL import ImageGrab
 import numpy as np
 import logging
-import cv2
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
