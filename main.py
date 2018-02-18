@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def main():
 	game = SnakeGame()
 	while True:
-		dist_top, dist_left, dist_right, dist_bottom, dist_head_tail = -1, -1, -1, -1, -1
+		dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, dist_candy = -1, -1, -1, -1, -1, -1
 		screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))
 		screen = np.array(screen_image)
 
@@ -48,7 +48,6 @@ def main():
 		# Get distance between snake head and candy
 		full = sd.combine(screen, snake_mask, candy_mask).screen
 		cnts = sd.find_contours(full)
-		dist_candy = -1
 		if len(cnts) == 2:
 			cnt1_prop = sd.get_contour_props(cnts[0])
 			cnt2_prop = sd.get_contour_props(cnts[1])
