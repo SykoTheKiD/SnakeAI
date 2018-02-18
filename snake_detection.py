@@ -1,6 +1,7 @@
 from math import sqrt
 import numpy as np
 import logging
+import imutils
 import cv2
 
 SNAKE_BODY = "snake_body"
@@ -36,15 +37,9 @@ def combine(image, mask1, mask2):
 def find_contours(image):
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	thresh = cv2.threshold(gray, 60, 255, cv2.THRESH_BINARY)[1]
-
 	cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 	cnts = cnts[0] if imutils.is_cv2() else cnts[1]
-	for c in cnts:
-		M = cv2.moments(c)
-		cX = int((M["m10"] / M["m00"]) * ratio)
-		cY = int((M["m01"] / M["m00"]) * ratio)
-		c = c.astype("int")
-		cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+	return cnts
 
 def get_square_center(c):
 	M = cv2.moments(c)
@@ -68,3 +63,8 @@ class Screen:
 	def __init__(self, mask, screen):
 		self.mask = mask
 		self.screen = screen
+
+class Contour:
+	def __init__(self, center, area):
+		self.center = center
+		self.area = area
