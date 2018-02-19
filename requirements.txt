@@ -1,7 +1,7 @@
 tensorflow
 tqdm
 numpy
-logging
+logger
 imutils
 cv2
 Pillow
