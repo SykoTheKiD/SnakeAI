@@ -44,6 +44,7 @@ class GeneticAlgorithm:
         for i in range(self.population_max_size):
             agent = Agent(i, NeuralNetwork())
             self.population.append(agent)
+        print(self.population)
 
     @staticmethod
     def predict(agent, input_vector):
@@ -108,3 +109,6 @@ class Agent:
         self.fitness = -1
         self.network = network
         self.top_class = False
+
+    def __str__(self):
+        return str(self.id)

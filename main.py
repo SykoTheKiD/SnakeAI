@@ -1,5 +1,3 @@
-import time
-
 import numpy as np
 from PIL import ImageGrab
 
@@ -12,18 +10,15 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    logger.info("Game starting")
-    for i in range(5):
-        logger.info(i + 1)
-        time.sleep(1)
-
     ga = GeneticAlgorithm(10, 3)
     ga.generate_population()
+    index = 0
+    snake = SnakeGame()
     while True:
         dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, dist_candy, snake_body_area = -1, -1, -1, -1, -1, -1, -1
         screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))
         screen = np.array(screen_image)
-
+        current_agent = ga.population[index]
         # Get distance between snake head and snake body
         screen_snake_body = sd.get_part(screen, sd.SNAKE_BODY).screen
         cnts = sd.find_contours(screen_snake_body)
@@ -65,11 +60,18 @@ def main():
                 dist_candy = sd.point_distance(head, p2)
 
         input_vector = np.array([dist_top, dist_bottom, dist_left, dist_right, dist_head_tail, dist_candy])
+        snake.move_snake(current_agent.network.predict(input_vector))
         if sd.game_over(screen):
             snake.score = snake_body_area
-            snakes.append(snake)
-            snake = SnakeGame()
+            current_agent.fitness = snake_body_area
             snake.reset_game()
+
+        if index < ga.population_max_size:
+            index += 1
+        # else:
+        #     ga.select()
+        #     ga.crossover
+        #     ga.mutate()
 
 
 if __name__ == "__main__":

@@ -28,7 +28,7 @@ class SnakeGame:
             logger.error("Invalid Direction Parameter")
             raise Exception("Direction invalid")
 
-    @staticmethod
-    def reset_game():
+    def reset_game(self):
+        self.score = 0
         mv.keyDown("space")
         mv.keyUp("space")
