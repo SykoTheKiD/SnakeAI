@@ -1,4 +1,3 @@
-import logging
 import time
 
 import numpy as np
@@ -6,6 +5,7 @@ from PIL import ImageGrab
 
 import snake_detection as sd
 from game import *
+from genetic import GeneticAlgorithm
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,8 +17,8 @@ def main():
         logger.info(i + 1)
         time.sleep(1)
 
-    snakes = []
-    snake = SnakeGame()
+    ga = GeneticAlgorithm(10, 3)
+    ga.generate_population()
     while True:
         dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, dist_candy, snake_body_area = -1, -1, -1, -1, -1, -1, -1
         screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))

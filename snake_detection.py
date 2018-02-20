@@ -25,7 +25,7 @@ def get_part(image, part):
         mask = cv2.inRange(image, colour, colour)
         screen = cv2.bitwise_and(image, image, mask=mask)
         return Screen(mask, screen)
-    except KeyError as e:
+    except KeyError:
         logger.error("Invalid Part")
 
 
@@ -44,12 +44,12 @@ def find_contours(image):
 
 
 def get_contour_props(c):
-    M = cv2.moments(c)
-    area = M["m00"]
+    m = cv2.moments(c)
+    area = m["m00"]
     center_x, center_y = 0, 0
     try:
-        center_x = int(M["m10"] / M["m00"])
-        center_y = int(M["m01"] / M["m00"])
+        center_x = int(m["m10"] / m["m00"])
+        center_y = int(m["m01"] / m["m00"])
     except ZeroDivisionError:
         logger.warning("Division by zero, no squares found")
     return Contour((center_x, center_y), area)

@@ -1,6 +1,9 @@
 import numpy as np
 import tensorflow as tf
 
+MOVES = {
+    0: ""
+}
 
 class NeuralNetwork:
     def __init__(self):
@@ -20,6 +23,7 @@ class NeuralNetwork:
 
         self.output_layer = {'weights': tf.Variable(tf.random_normal([num_nodes_hl3, num_classes])),
                              'biases': tf.Variable(tf.random_normal([num_classes]))}
+        self.layers = [self.hl_1, self.hl_2, self.hl_3, self.output_layer]
 
     def predict(self, input_vector):
         x_input_placeholder = tf.placeholder(shape=[None, 5], dtype=tf.float32)
