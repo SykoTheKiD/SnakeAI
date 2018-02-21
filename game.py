@@ -21,6 +21,7 @@ class SnakeGame:
     def move_snake(move_num):
         direction = MOVES[move_num]
         direction = direction.lower()
+        logger.info("Moving Snake " + direction)
         if direction == MOVE_UP or direction == MOVE_DOWN or direction == MOVE_LEFT or direction == MOVE_RIGHT:
             mv.keyDown(direction)
             mv.keyUp(direction)
@@ -30,8 +31,8 @@ class SnakeGame:
 
     def reset_game(self):
         self.score = 0
-        mv.keyDown("space")
-        mv.keyUp("space")
+        mv.keyDown("enter")
+        mv.keyUp("enter")
 
     @staticmethod
     def unpause():

@@ -142,19 +142,6 @@ function setMoveEvents() {
             directionString = 'down';
         }
     });
-    
-    
-    //Hold direction key to speed up snake
-    var lastKeyUpAt = 0,
-        $elem = $('body');
-
-    $elem.on('keydown', function (e) {        
-        if (e.which === 37 && lastDirectionString === 'left'
-            || e.which === 38 && lastDirectionString === 'up'
-            || e.which === 39 && lastDirectionString === 'right'
-            || e.which === 40 && lastDirectionString === 'down') {
-        }
-    });
 }
 
 //check if the new position of the head is valid to continue moving

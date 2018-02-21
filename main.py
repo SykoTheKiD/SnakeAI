@@ -14,14 +14,16 @@ def main():
     index = 0
     snake = SnakeGame()
     while True:
-        dist_bottom, dist_candy, dist_head_tail, dist_left, dist_right, dist_top, screen, snake_body_area = get_snake_params()
+        dist_bottom, dist_candy, dist_head_tail, \
+        dist_left, dist_right, dist_top, screen, snake_body_area = get_snake_params()
         input_vector = np.array([dist_top, dist_bottom, dist_left, dist_right, dist_head_tail, dist_candy])
         current_snake = ga.population[index]
-        snake.move_snake(current_snake.network.predict(input_vector))
-
         if sd.game_screen(screen, sd.GAME_PAUSE):
+            # logger.info("Game Paused, running NN")
             snake.unpause()
+            snake.move_snake(current_snake.network.predict(input_vector))
         elif sd.game_screen(screen, sd.GAME_OVER):
+            # logger.info("Game over, snake " + str(index) + "    crashed")
             snake.score = snake_body_area
             current_snake.fitness = snake_body_area
             snake.reset_game()
@@ -36,7 +38,8 @@ def main():
 
 
 def get_snake_params():
-    dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, dist_candy, snake_body_area = -1, -1, -1, -1, -1, -1, -1
+    dist_top, dist_left, dist_right, dist_bottom, dist_head_tail, \
+    dist_candy, snake_body_area = -1, -1, -1, -1, -1, -1, -1
     screen_image = ImageGrab.grab(bbox=(13, 80, 960, 1050))
     screen = np.array(screen_image)
     # Get distance between snake head and snake body
@@ -64,7 +67,8 @@ def get_snake_params():
     try:
         dist_head_tail = sd.point_distance(head, body_center)
     except UnboundLocalError:
-        logger.error("No snake body found")
+        pass
+        # logger.error("No snake body found")
     # Get distance between snake head and candy
     full = sd.combine(screen, snake_mask, candy_mask).screen
     cnts = sd.find_contours(full)

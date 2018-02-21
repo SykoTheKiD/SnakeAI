@@ -66,3 +66,4 @@ class Agent:
     def __init__(self):
         self.network = NeuralNetwork()
         self.fitness = -1
+
