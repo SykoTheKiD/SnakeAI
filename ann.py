@@ -1,6 +1,5 @@
 import os
 
-import numpy as np
 import tensorflow as tf
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -26,7 +25,7 @@ class NeuralNetwork:
                              'biases': tf.Variable(tf.random_normal([self.num_classes]))}
         self.layers = [self.hl_1, self.hl_2, self.hl_3, self.output_layer]
         self.x_input_placeholder = tf.placeholder(shape=[None, self.input_size], dtype=tf.float32)
-        l1 = tf.add(tf.matmul(x_input_placeholder, self.hl_1['weights']), self.hl_1['biases'])
+        l1 = tf.add(tf.matmul(self.x_input_placeholder, self.hl_1['weights']), self.hl_1['biases'])
         l1 = tf.nn.relu(l1)
         l2 = tf.add(tf.matmul(l1, self.hl_2['weights']), self.hl_2['biases'])
         l2 = tf.nn.relu(l2)
@@ -40,12 +39,3 @@ class NeuralNetwork:
             layer_eval = self.output_layer_final.eval(feed_dict={self.x_input_placeholder: [input_vector]})
             result = sess.run(tf.argmax(layer_eval, 1))
         return result[0]
-
-
-def main():
-    nn = NeuralNetwork()
-    nn.predict(np.array([1.0, 2.0, 3.0, 4.0, 5.0]))
-
-
-if __name__ == "__main__":
-    main()

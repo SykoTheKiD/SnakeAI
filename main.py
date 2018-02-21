@@ -20,15 +20,16 @@ def main():
         current_snake = ga.population[index]
         if sd.game_screen(screen, sd.GAME_PAUSE):
             # logger.info("Game Paused, running NN")
+            network_predict = current_snake.network.predict(input_vector)
             snake.unpause()
-            snake.move_snake(current_snake.network.predict(input_vector))
+            snake.move_snake(network_predict)
         elif sd.game_screen(screen, sd.GAME_OVER):
             # logger.info("Game over, snake " + str(index) + "    crashed")
             snake.score = snake_body_area
             current_snake.fitness = snake_body_area
             snake.reset_game()
 
-        if index < ga.population_size:
+        if index < len(ga.population):
             index += 1
         else:
             index = 0
