@@ -30,7 +30,7 @@ $(function () {
     });
 
     createSnake();
-
+    pauseSnake()
     $(document).keyup(function (e) {
         if (e.keyCode == 27 || e.keyCode == 32) { //Esc or Space
             stopMovingOfSnake ? continueSnake() : pauseSnake();
@@ -207,11 +207,13 @@ function checkNewPosition() {
 function pauseSnake() {
     stopMovingOfSnake = true;
     showInfoAlert('Game paused');
+    $('#field').css('background-color', "#70a6ff")
 }
 function continueSnake() {
     if (gameFinished) return false;
     stopMovingOfSnake = false;
     hideInfoAlert();
+    $('#field').css('background-color', "#121312")
 }
 
 function killSnake() {

@@ -1,9 +1,6 @@
 import numpy as np
 import tensorflow as tf
 
-MOVES = {
-    0: ""
-}
 
 class NeuralNetwork:
     def __init__(self):

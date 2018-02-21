@@ -32,3 +32,8 @@ class SnakeGame:
         self.score = 0
         mv.keyDown("space")
         mv.keyUp("space")
+
+    @staticmethod
+    def unpause():
+        mv.keyDown("esc")
+        mv.keyUp("esc")

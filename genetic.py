@@ -9,20 +9,6 @@ NUM_GENERATIONS = 1000000
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-def crossover(mother, father):
-    mother_size = len(mother.network.layers)
-    rand_point = random.randint(0, mother_size - 1)
-    i = rand_point
-    child = mother
-    while i < mother_size:
-        mother_bias = mother.network.layers[i]['biases']
-        father.network.layers[i]['biases'] = mother_bias
-        i += 1
-        child = mother if random.randint(0, 1) else father
-    return child
-
-
 class GeneticAlgorithm:
     def __init__(self, max_size, top_k):
         self.population_max_size = max_size
@@ -44,7 +30,23 @@ class GeneticAlgorithm:
         for i in range(self.population_max_size):
             agent = Agent(i, NeuralNetwork())
             self.population.append(agent)
-        print(self.population)
+
+    def crossover(self, mother, father):
+        for _ in range((self.population_max_size - len(self.population)) // 2):
+            mother = random.choice(self.population)
+            father = random.choice(self.population)
+            child1 = Agent()
+            child2 = Agent()
+        mother_size = len(mother.network.layers)
+        rand_point = random.randint(0, mother_size - 1)
+        i = rand_point
+        child = mother
+        while i < mother_size:
+            mother_bias = mother.network.layers[i]['biases']
+            father.network.layers[i]['biases'] = mother_bias
+            i += 1
+            child = mother if random.randint(0, 1) else father
+        return child
 
     @staticmethod
     def predict(agent, input_vector):
@@ -84,7 +86,8 @@ class GeneticAlgorithm:
         self.population.sort(key=lambda agent: agent.fitness, reverse=True)
         for i in range(self.top_agents_size):
             self.population[i].top_class = True
-        return self.population[:self.top_agents_size]
+        self.population = self.population[:int(0.2 * len(self.population))]
+        return self.population
 
     def mutation(self, child):
         for i in range(len(child.network.layers)):
