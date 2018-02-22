@@ -46,10 +46,9 @@ function createSnake() {
     var snake_head = $('<div></div>', {
         "class": "snake-head"
     });
-    array_snake_parts.push(snake_head);        
-    
+    array_snake_parts.push(snake_head);
     //Create the tail parts    
-    var amountOfPartsByDefault = 0;
+    var amountOfPartsByDefault = Math.floor(Math.random() * (21));
 
     for (var z = 0; z < amountOfPartsByDefault; z++) {
         var snake_tail = $('<div></div>', {
