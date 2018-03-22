@@ -6,7 +6,7 @@
 
 ### How do I get set up? ###
 
--- Run `pip install requirements -r requirements.txt`
+-- Run `pip install requirements -r requirements.txt` to get all the dependencies in order
 
 -- Open `index.html` in your browser
 
