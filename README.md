@@ -16,4 +16,4 @@
 OpenCV currently expects a 1920 x 1080 screen with the browser taking half the screen from the left this will me fixed in a later release
 
 
-#### Credit to [@PKief](https://github.com/PKief) for the [JS implementation](https://github.com/georgesung/road_lane_line_detection) of the snake game
+#### Credit to [@PKief](https://github.com/PKief) for the JS implementation of the snake game
